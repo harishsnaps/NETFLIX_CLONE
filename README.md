@@ -19,6 +19,4 @@ A Netflix clone built using the MERN stack (MongoDB, Express.js, React, Node.js)
 - **APIs:**
   - TMDB API for movie data
 
-## Live Demo
 
-Check out the live demo here: [Live Site](https://netflix-clone-tawny-gamma.vercel.app).
