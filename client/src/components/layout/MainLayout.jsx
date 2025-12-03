@@ -13,15 +13,23 @@ import { setListFavorites, setUser } from "../../redux/features/userSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     const authUser = async () => {
-      const { response, err } = await userApi.getInfo();
-
-      if (response) dispatch(setUser(response));
-      if (err) dispatch(setUser(null));
+      // Check if token exists before making the request
+      const token = localStorage.getItem("actkn");
+      if (token) {
+        const { response, err } = await userApi.getInfo();
+        if (response) dispatch(setUser(response));
+        if (err) {
+          // Clear invalid token
+          localStorage.removeItem("actkn");
+          dispatch(setUser(null));
+        }
+      } else {
+        dispatch(setUser(null));
+      }
     };
 
     authUser();
@@ -32,11 +40,17 @@ const MainLayout = () => {
       const { response, err } = await favoriteApi.getList();
 
       if (response) dispatch(setListFavorites(response));
-      if (err) toast.error(err.message);
+      if (err) {
+        console.error("Failed to get favorites:", err.message);
+        toast.error(err.message);
+      }
     };
 
-    if (user) getFavorites();
-    if (!user) dispatch(setListFavorites([]));
+    if (user) {
+      getFavorites();
+    } else {
+      dispatch(setListFavorites([]));
+    }
   }, [user, dispatch]);
 
   return (

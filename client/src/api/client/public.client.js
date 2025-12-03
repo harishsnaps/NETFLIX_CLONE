@@ -10,20 +10,32 @@ const publicClient = axios.create({
   }
 });
 
-publicClient.interceptors.request.use(async config => {
-  return {
-    ...config,
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-});
+publicClient.interceptors.request.use(
+  (config) => {
+    config.headers = {
+      "Content-Type": "application/json",
+      ...config.headers
+    };
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-publicClient.interceptors.response.use((response) => {
-  if (response && response.data) return response.data;
-  return response;
-}, (err) => {
-  throw err.response.data;
-});
+publicClient.interceptors.response.use(
+  (response) => {
+    if (response && response.data) {
+      return response.data;
+    }
+    return response;
+  },
+  (error) => {
+    throw error.response?.data || {
+      message: "Network error or server unavailable",
+      status: error.response?.status || 500
+    };
+  }
+);
 
 export default publicClient;
