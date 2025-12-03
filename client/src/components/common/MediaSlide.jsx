@@ -16,7 +16,7 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
         page: 1
       });
 
-      if (response) setMedias(response.results);
+      if (response) setMedias(response.results || []);
       if (err) toast.error(err.message);
     };
 
@@ -25,7 +25,7 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
 
   return (
     <AutoSwiper>
-      {medias.map((media, index) => (
+      {medias?.map((media, index) => (
         <SwiperSlide key={index}>
           <MediaItem media={media} mediaType={mediaType} />
         </SwiperSlide>
