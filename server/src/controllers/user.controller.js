@@ -29,7 +29,8 @@ const signup = async (req, res) => {
       ...user._doc,
       id: user.id
     });
-  } catch {
+  } catch (err) {
+    console.log("SIGNUP ERROR:", err);
     responseHandler.error(res);
   }
 };
@@ -58,7 +59,8 @@ const signin = async (req, res) => {
       ...user._doc,
       id: user.id
     });
-  } catch {
+  } catch (err) {
+    console.log("SIGNIN ERROR:", err);
     responseHandler.error(res);
   }
 };
