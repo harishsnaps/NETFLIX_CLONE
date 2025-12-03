@@ -22,11 +22,11 @@ app.use("/api/v1", routes);
 const port = process.env.PORT || 5000;
 
 if (process.env.MONGODB_URL) {
-  mongoose.connect(process.env.MONGODB_URL).then(() => {
-    console.log("Mongodb connected");
-  }).catch((err) => {
-    console.log({ err });
-  });
+  mongoose.connect(process.env.MONGODB_URL)
+    .then(() => console.log("Mongodb connected"))
+    .catch((err) => console.log("DB Error:", err));
+} else {
+  console.log("Error: MONGODB_URL is missing in Environment Variables");
 }
 
 if (process.env.NODE_ENV !== "production") {
