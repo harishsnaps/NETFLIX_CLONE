@@ -33,7 +33,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         page: 1
       });
 
-      if (response) setMovies(response.results);
+      if (response) setMovies(response.results || []);
       if (err) toast.error(err.message);
       dispatch(setGlobalLoading(false));
     };
@@ -81,7 +81,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       //   disableOnInteraction: false
       // }}
       >
-        {movies.map((movie, index) => (
+        {movies?.map((movie, index) => (
           <SwiperSlide key={index}>
             <Box sx={{
               paddingTop: {
