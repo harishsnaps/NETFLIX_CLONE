@@ -1,8 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = "https://netflix-clone-api-psi.vercel.app/api/v1/";
-
+const baseURL = "/api/v1";
 const publicClient = axios.create({
   baseURL,
   paramsSerializer: {
